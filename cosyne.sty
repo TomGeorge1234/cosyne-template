@@ -1,0 +1,96 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{cosyne}[2026/10/07 Cosyne abstract styling]
+
+% -----------------------------------------------------------------------------
+% User-adjustable spacing parameters
+% -----------------------------------------------------------------------------
+% Vertical space inserted between paragraphs.
+\providecommand{\CosyneParagraphSpacing}{3.1pt plus 0.4pt minus 0.2pt}
+% Baseline-to-baseline distance for 12 pt body text.
+\providecommand{\CosyneLineSpacing}{12.65pt}
+
+% The document class controls paper size; this package controls only margins.
+\RequirePackage[margin=0.55in]{geometry}
+\RequirePackage{fontspec}
+\setmainfont{Helvetica Neue}[
+  UprightFont = *,
+  BoldFont = * Bold,
+  ItalicFont = * Italic,
+  BoldItalicFont = * Bold Italic
+]
+\RequirePackage{microtype}
+\RequirePackage{xcolor}
+\RequirePackage{graphicx}
+\RequirePackage{caption}
+\RequirePackage[
+  backend=biber,
+  style=numeric,
+  sorting=none,
+  giveninits=true,
+  maxbibnames=3
+]{biblatex}
+\RequirePackage{hyperref}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{\CosyneParagraphSpacing}
+\setlength{\emergencystretch}{1.5em}
+\frenchspacing
+
+% Deliberately tighter than LaTeX's normal 12 pt leading, following the examples.
+\AtBeginDocument{\fontsize{12pt}{\CosyneLineSpacing}\selectfont}
+
+% Compact 10 pt captions, permitted by the Cosyne instructions.
+\DeclareCaptionFont{tenpoint}{\fontsize{10pt}{10.4pt}\selectfont}
+\captionsetup{
+  font=tenpoint,
+  labelfont=bf,
+  labelsep=colon,
+  justification=justified,
+  singlelinecheck=false,
+  hypcap=false,
+  skip=2pt
+}
+\setlength{\abovecaptionskip}{2pt}
+\setlength{\belowcaptionskip}{0pt}
+
+% Tight, bold, run-in section headings matching the supplied examples.
+\newcommand{\runsection}[1]{%
+  \par\vspace{2.5pt}%
+  \noindent\textbf{#1}\hspace{0.65em}\ignorespaces
+}
+
+% Compact references: Author, bold year, title—and nothing else.
+\renewcommand*{\bibfont}{\fontsize{10pt}{10.35pt}\selectfont}
+\DeclareFieldFormat{year}{\mkbibbold{#1}}
+\DeclareFieldFormat[article]{title}{#1}
+\DeclareBibliographyDriver{article}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \mkbibbold{\printnames{author}}%
+  \setunit{\addcomma\space}%
+  \printfield{year}%
+  \setunit{\addcomma\space}%
+  \printfield[title]{title}%
+  \usebibmacro{finentry}%
+}
+\setlength{\bibitemsep}{0pt}
+\setlength{\bibparsep}{0pt}
+
+% Bracketed superscript citations, e.g. text^[1,2], matching the examples.
+\newrobustcmd{\mkbibbracketedsuperscript}[1]{%
+  \mkbibsuperscript{\mkbibbrackets{#1}}}
+\DeclareCiteCommand{\cite}[\mkbibbracketedsuperscript]
+  {\usebibmacro{prenote}}
+  {\usebibmacro{citeindex}\usebibmacro{cite}}
+  {\addcomma}
+  {\usebibmacro{postnote}}
+
+% Run all references together as one compact paragraph, like the examples.
+\defbibenvironment{inlinebibliography}
+  {\noindent}
+  {\unspace}
+  {\ifhmode\unspace\space\fi
+   \mkbibbrackets{\printfield{labelnumber}}\addspace}
+
+\endinput
