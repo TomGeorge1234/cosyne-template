@@ -8,6 +8,8 @@
 \providecommand{\CosyneParagraphSpacing}{3.1pt plus 0.4pt minus 0.2pt}
 % Baseline-to-baseline distance for 12 pt body text.
 \providecommand{\CosyneLineSpacing}{12.65pt}
+% Vertical space between floating figures and surrounding text.
+\providecommand{\CosyneFigureSpacing}{6pt plus 1pt minus 1pt}
 
 % The document class controls paper size; this package controls only margins.
 \RequirePackage[margin=0.55in]{geometry}
@@ -34,6 +36,8 @@
 \pagestyle{empty}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{\CosyneParagraphSpacing}
+\setlength{\intextsep}{\CosyneFigureSpacing}
+\setlength{\textfloatsep}{\CosyneFigureSpacing}
 \setlength{\emergencystretch}{1.5em}
 \frenchspacing
 
